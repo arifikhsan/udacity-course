@@ -5,9 +5,7 @@
 // To keep your imports tidy, follow the ordering guidelines at
 // https://www.dartlang.org/guides/language/effective-dart/style#ordering
 import 'package:flutter/material.dart';
-// @required is defined in the meta.dart package
 import 'package:meta/meta.dart';
-
 import 'package:task_04_navigation/converter_route.dart';
 import 'package:task_04_navigation/unit.dart';
 
@@ -39,7 +37,8 @@ class Category extends StatelessWidget {
     @required this.color,
     @required this.iconLocation,
     @required this.units,
-  })  : assert(name != null),
+  })
+      : assert(name != null),
         assert(color != null),
         assert(iconLocation != null),
         assert(units != null),
@@ -47,7 +46,21 @@ class Category extends StatelessWidget {
 
   /// Navigates to the [ConverterRoute].
   void _navigateToConverter(BuildContext context) {
-    // TODO: Using the Navigator, navigate to the [ConverterRoute]
+    Navigator
+        .of(context)
+        .push(MaterialPageRoute<Null>(
+        builder: (BuildContext context) {
+          return Scaffold(
+            appBar: AppBar(elevation: 1, title: Text(name, style: Theme
+                .of(context)
+                .textTheme
+                .display1,)
+              , centerTitle: true, backgroundColor: color,
+            ),
+            body: ConverterRoute(units: units, color: color, name: name),
+          );
+        }
+    ));
   }
 
   /// Builds a custom widget that shows [Category] information.
@@ -69,9 +82,8 @@ class Category extends StatelessWidget {
           splashColor: color,
           // We can use either the () => function() or the () { function(); }
           // syntax.
-          // TODO: Update this onTap property to call _navigateToConverter()
           onTap: () {
-            print('I was tapped!');
+            _navigateToConverter(context);
           },
           child: Padding(
             padding: EdgeInsets.all(8.0),
@@ -93,7 +105,10 @@ class Category extends StatelessWidget {
                   child: Text(
                     name,
                     textAlign: TextAlign.center,
-                    style: Theme.of(context).textTheme.headline,
+                    style: Theme
+                        .of(context)
+                        .textTheme
+                        .headline,
                   ),
                 ),
               ],
